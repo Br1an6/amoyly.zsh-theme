@@ -95,7 +95,7 @@ prompt_git() {
     zstyle ':vcs_info:*' enable git
     zstyle ':vcs_info:*' get-revision true
     zstyle ':vcs_info:*' check-for-changes true
-    zstyle ':vcs_info:*' stagedstr '✚'
+    zstyle ':vcs_info:*' stagedstr '±'
     zstyle ':vcs_info:git:*' unstagedstr '●'
     zstyle ':vcs_info:*' formats ' %u%c'
     zstyle ':vcs_info:*' actionformats ' %u%c'
@@ -175,8 +175,8 @@ build_prompt() {
   prompt_status
   prompt_virtualenv
   prompt_context
+  prompt_git 
   prompt_dir
-  prompt_git
   prompt_hg
   prompt_end
 }
