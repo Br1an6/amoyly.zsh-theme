@@ -1,7 +1,6 @@
 # Original theme https://github.com/agnoster zsh theme
 # vim:ft=zsh ts=2 sw=2 sts=2
 #
-# agnoster's Theme - https://gist.github.com/3712874
 # A Powerline-inspired theme for ZSH
 #
 # # README
@@ -52,8 +51,10 @@ prompt_end() {
   else
     echo -n "%{%k%}"
   fi
-  echo -n "%{%f%}
-❯"
+  echo -n "%{%f%}"  
+  [[ $UID -eq 0 ]] && echo -n "⚡ "
+  echo -n "
+ ❯"
   CURRENT_BG=''
 }
 
@@ -75,7 +76,9 @@ prompt_git() {
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
     dirty=$(parse_git_dirty)
     ref=$(git symbolic-ref HEAD 2> /dev/null) || ref="➦ $(git show-ref --head -s --abbrev |head -n1 2> /dev/null)"
-    if [[ -n $dirty ]]; then
+    if [[ ! -z $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+      prompt_segment red white
+    elif [[ -n $dirty ]]; then
       prompt_segment yellow black
     else
       prompt_segment green black
@@ -96,11 +99,11 @@ prompt_git() {
     zstyle ':vcs_info:*' get-revision true
     zstyle ':vcs_info:*' check-for-changes true
     zstyle ':vcs_info:*' stagedstr '±'
-    zstyle ':vcs_info:git:*' unstagedstr '' # '●' # optional
+    zstyle ':vcs_info:*' unstagedstr '\b'  # git:*' unstagedstr '●'
     zstyle ':vcs_info:*' formats ' %u%c'
     zstyle ':vcs_info:*' actionformats ' %u%c'
     vcs_info
-    echo -n "${ref/refs\/heads\//⭠ }${vcs_info_msg_0_%% }${mode}"
+    echo -n "${ref/refs\/heads\//⭠ }${vcs_info_msg_0_%% }"
   fi
 }
 
@@ -161,14 +164,16 @@ prompt_virtualenv() {
 prompt_status() {
   local symbols
   symbols=()
-  [[ $RETVAL -eq 0 ]] && symbols+="%{%F{green}%}✔" 
-  [[ $RETVAL -ne 0 ]] && symbols+="%{%F{red}%}✘"
-  [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
-  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
+  [[ $RETVAL -eq 0 ]] && symbols+=" %{%F{green}%}✔" 
+  [[ $RETVAL -ne 0 ]] && symbols+=" %{%F{red}%}✘"
+  [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+=" %{%F{cyan}%}⚙"
 
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
+
+# Show Time
 RPROMPT='%{$fg[green]%}[%*]%{$reset_color%}'
+
 ## Main prompt
 build_prompt() {
   RETVAL=$?
