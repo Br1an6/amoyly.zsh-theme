@@ -64,7 +64,7 @@ prompt_end() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment black yellow "%(!.%{%F{yellow}%}.)$USER"
+    prompt_segment 239 yellow "%(!.%{%F{yellow}%}.)$USER" # 239 used to be black
   fi
 }
 
@@ -168,7 +168,7 @@ prompt_status() {
   [[ $RETVAL -ne 0 ]] && symbols+=" %{%F{red}%}✘"
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+=" %{%F{cyan}%}⚙"
 
-  [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
+  [[ -n "$symbols" ]] && prompt_segment 239 default "$symbols" # 239 used to be black
 }
 
 # Show Time
