@@ -2,7 +2,7 @@
 A sexy, elegant, and comfortable-reading theme
 > Modified agnoster
 
-![alt tag](https://github.com/Br1an6/amoyly2.zsh-theme/blob/master/Screen%20Shot.png)
+![alt tag](https://github.com/Br1an6/amoyly.zsh-theme/blob/master/Screen%20Shot.png)
 
 License
 -------
